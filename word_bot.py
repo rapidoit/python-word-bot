@@ -13,7 +13,8 @@ class WordBot(object):
     def edit_distance(self, candidate, target, max_distance):
         longer, shorter = (target.lower(), candidate.lower()) \
             if len(target) > len(candidate) else (candidate.lower(), target.lower())
-        weight = pow(2, len([c for c in longer if c not in ('a', 'e', 'i', 'o', 'u')]))
+        real_weight = pow(4, len([c for c in longer if c not in ('a', 'e', 'i', 'o', 'u')]))
+        weight = pow(4, len([c for c in longer if c not in ('a', 'e', 'i', 'o', 'u')]))
         prev_distance, distances = 0, range(len(longer) + 1)
         for short_index, short_char in enumerate(shorter):
             distances_ = [short_index + 1]
@@ -38,15 +39,16 @@ class WordBot(object):
                 condition3 = long_comp_char == short_comp_char
                 condition4 = short_comp_char not in ('a', 'e', 'i', 'o', 'u')
                 if condition1 and ((condition2 and condition4) or condition3):
-                    weight = weight / 2
+                    weight = weight / 4
                 elif not (condition4 and condition3 and condition2):
                     weight = weight * 2
                 prev_distance = current_distance
             except Exception as exp:
                 print(exp)
-        return (weight * distances[-1]) <= 1, candidate
+        print(real_weight, weight, distances[-1], ((weight/real_weight) * distances[-1]))
+        return ((weight/real_weight) * distances[-1]) <= 1, candidate
 
 
-print(WordBot().find_match('Badda', ['Nadda', 'Norda', 'Bodda', 'Badaa']))
+print(WordBot().find_match('Bonosree', ['Banani', 'Bonasrree']))
 
-# Output: Nadda, Bodda, Badaa
+# Output: Banasrre
