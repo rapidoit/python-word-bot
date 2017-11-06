@@ -49,6 +49,8 @@ class WordBot(object):
         return ((weight/real_weight) * distances[-1]) <= 1, candidate
 
 
-print(WordBot().find_match('Bonosree', ['Banani', 'Bonasrree']))
+print(WordBot().find_match('elephant', ['elapent']))
 
-# Output: Banasrre
+# Output:
+# >> 1024 4.0 3 0.01171875
+# >> elapent
